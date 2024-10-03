@@ -20,8 +20,8 @@ struct DragView: View {
             .onChanged { value in
                 offset = CGSize(width: value.startLocation.x + value.translation.width - circleSize/2,
                                 height: value.startLocation.y + value.translation.height - circleSize/2)
-                withAnimation {
-                    scale = 1.5
+                withAnimation(.easeOut) {
+                    scale = 1.3
                 }
             }
             .onEnded { value in
@@ -34,7 +34,8 @@ struct DragView: View {
     var body: some View {
         VStack {
             Spacer()
-            Circle()
+            Image("Image")
+                .resizable()
                 .foregroundColor(.teal)
                 .frame(width: circleSize * scale, height: circleSize * scale)
                 .offset(offset)
@@ -43,12 +44,12 @@ struct DragView: View {
         }
         .frame(maxWidth: .infinity)
         .overlay(alignment: .top) {
-            Text("Use one finger to drag the circle around")
+            Text("Drag the item to any point")
                 .padding()
         }
-        .navigationTitle("Drag")
+        .navigationTitle("DragAndScale")
         .toolbar {
-            Button("Reset") {
+            Button("Again") {
                 offset = .zero
             }
         }

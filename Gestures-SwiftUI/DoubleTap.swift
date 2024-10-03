@@ -9,50 +9,51 @@ import SwiftUI
 
 struct DoubleTap: View {
     
-    @State private var isClosed = true
+    @State private var isOff = true
     
-    let singleTapGesture = TapGesture()
-    let doubleTapGesture = TapGesture(count: 2)
+    let oneTap = TapGesture()
+    let twoTaps = TapGesture(count: 2)
     let longPressGesture = LongPressGesture(minimumDuration: 2)
     let dragGesture = DragGesture(minimumDistance: 10)
     let rotationGesture = RotationGesture(minimumAngleDelta: Angle(degrees: 30))
     
-    var sequenceGesture : some Gesture {
-        SequenceGesture(singleTapGesture, doubleTapGesture)
+    var sequence : some Gesture {
+        SequenceGesture(oneTap, twoTaps)
             .onEnded { _ in
                 withAnimation {
-                    isClosed.toggle()
+                    isOff.toggle()
                 }
             }
     }
     
     var simultaneousGesture : some Gesture {
-        SimultaneousGesture(singleTapGesture, rotationGesture)
+        SimultaneousGesture(oneTap, rotationGesture)
             .onEnded { _ in
                 withAnimation {
-                    isClosed.toggle()
+                    isOff.toggle()
                 }
             }
     }
     
     var body: some View {
         VStack {
-            Text("Use your composed gesture to trigger an animation")
+            Text("Double tap to see animation")
             
             Spacer()
             
-            
-            LinearGradient(colors: [.mint, .teal, .orange], startPoint: .top, endPoint: .bottom)
+            RadialGradient(colors: [.green, .yellow, .mint], center: .center, startRadius: 0, endRadius: 250)
                 .frame(maxHeight: 500)
                 .overlay {
                     HStack {
-                        Rectangle()
-                            .offset(x: isClosed ? 0 : -250, y: 0)
-                        Rectangle()
-                            .offset(x: isClosed ? 0 : 250, y: 0)
+                        RoundedRectangle(cornerRadius: 20)
+                            .offset(x: isOff ? 0 : -120, y: 0)
+                            .fill(LinearGradient(colors: [.black, .black, .yellow], startPoint: .bottomLeading, endPoint: .bottomTrailing))
+                        RoundedRectangle(cornerRadius: 20)
+                            .offset(x: isOff ? 0 : 120, y: 0)
+                            .fill(LinearGradient(colors: [.black, .black, .yellow], startPoint: .bottomTrailing, endPoint: .bottomLeading))
                     }
                 }
-                .gesture(sequenceGesture)
+                .gesture(sequence)
             
             Spacer()
             
