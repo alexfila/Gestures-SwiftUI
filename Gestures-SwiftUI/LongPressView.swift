@@ -8,28 +8,28 @@
 import SwiftUI
 
 struct LongPressView: View {
-    @State private var sizeIndex = 0
-    @GestureState var isDetectingLongPress = false
+    @State private var sizeCounter = 0
+    @GestureState var isPressingLong = false
     
     private var sizes: [CGSize] = [
-        CGSize(width: 150, height: 80),
-        CGSize(width: 200, height: 40),
-        CGSize(width: 50, height: 250),
-        CGSize(width: 220, height: 100),
-        CGSize(width: 90, height: 90),
+        CGSize(width: 167, height: 75),
+        CGSize(width: 190, height: 50),
+        CGSize(width: 65, height: 234),
+        CGSize(width: 214, height: 95),
+        CGSize(width: 95, height: 95),
     ]
     
     var longPressGesture: some Gesture {
         LongPressGesture()
             .onEnded { value in
                 withAnimation {
-                    sizeIndex += 1
-                    if sizeIndex == sizes.count {
-                        sizeIndex = 0
+                    sizeCounter += 1
+                    if sizeCounter == sizes.count {
+                        sizeCounter = 0
                     }
                 }
             }
-            .updating($isDetectingLongPress) { currentState, gestureState, transaction in
+            .updating($isPressingLong) { currentState, gestureState, transaction in
                 gestureState = currentState
             }
     }
@@ -39,34 +39,35 @@ struct LongPressView: View {
             Spacer()
             Capsule()
                 .foregroundColor(.yellow)
-                .frame(width: sizes[sizeIndex].width, height: sizes[sizeIndex].height)
+                .frame(width: sizes[sizeCounter].width, height: sizes[sizeCounter].height)
                 .gesture(longPressGesture)
-                .shadow(color: .shadowColor, radius: isDetectingLongPress ? 20 : 0)
+                .shadow(color: .yellow, radius: isPressingLong ? 20 : 5)
             
             RoundedRectangle(cornerRadius: 20)
                 .foregroundColor(.purple)
-                .frame(width: sizes[sizeIndex].height, height: sizes[sizeIndex].width)
+                .frame(width: sizes[sizeCounter].height, height: sizes[sizeCounter].width)
+                .shadow(color: .purple, radius: isPressingLong ? 20 : 5)
                 .onLongPressGesture {
                     withAnimation {
-                        sizeIndex += 1
-                        if sizeIndex == sizes.count {
-                            sizeIndex = 0
+                        sizeCounter += 1
+                        if sizeCounter == sizes.count {
+                            sizeCounter = 0
                         }
                     }
                 }
             
             Spacer()
         }
-        .navigationTitle("Touch and Hold")
+        .navigationTitle("Long Press")
         .frame(maxWidth: .infinity)
         .overlay(alignment: .top) {
-            Text("Touch and hold the capsule to change its size")
+            Text("Press on any object and hold it")
                 .padding()
         }
         .padding(.trailing)
         .toolbar {
-            Button("Reset") {
-                sizeIndex = 0
+            Button("Again") {
+                sizeCounter = 0
             }
         }
     }
@@ -77,5 +78,4 @@ struct LongPressView: View {
 
 extension Color {
     static let shadowColor = Color("shadowColor")
-
 }

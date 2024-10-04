@@ -1,5 +1,5 @@
 //
-//  GestureRow.swift
+//  OrganizerRow.swift
 //  Gestures-SwiftUI
 //
 //  Created by Alex Fila on 03/10/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct GestureRow: View {
+struct OrganizerRow: View {
     let title: String
     let description: String
     let systemImage: String
@@ -32,4 +32,4 @@ struct GestureRow: View {
     }
 }
 
-#Preview { GestureRow(title: "Drag", description: "Drag a shape using one finger", systemImage: "arrow.up.and.down.and.arrow.left.and.right") }
+#Preview { OrganizerRow(title: "Gesture", description: "Tap, drag or long press", systemImage: "move.3d") }
