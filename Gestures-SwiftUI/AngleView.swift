@@ -1,5 +1,5 @@
 //
-//  RotateView.swift
+//  AngleView.swift
 //  Gestures-SwiftUI
 //
 //  Created by Alex Fila on 03/10/24.
@@ -7,44 +7,44 @@
 
 import SwiftUI
 
-struct RotateView: View {
-    @State private var rotation = Angle.zero
+struct AngleView: View {
+    @State private var newAngle = Angle.zero
     
-    var rotationGesture: some Gesture {
+    var rotateIt: some Gesture {
         RotationGesture()
             .onChanged{ angle in
-                rotation = angle
+                newAngle = angle
             }
             .onEnded { angle in
-                rotation = angle
+                newAngle = angle
             }
     }
     
     var body: some View {
         VStack {
             Spacer()
-            Text("\(rotation.degrees)")
+            Text("Current angle is" + "\(newAngle.degrees)")
                 .font(.system(.body, design: .monospaced))
             Rectangle()
                 .foregroundColor(.red)
                 .frame(width: 225, height: 225)
-                .rotationEffect(rotation)
-                .gesture(rotationGesture)
+                .rotationEffect(newAngle)
+                .gesture(rotateIt)
             Spacer()
         }
-        .navigationTitle("Rotate")
+        .navigationTitle("Angle Change")
         .frame(maxWidth: .infinity)
         .overlay(alignment: .top) {
-            Text("Use two fingers to rotate the box")
+            Text("You need to user 2 fingers to rotate it")
                 .padding()
         }
         .padding()
         .toolbar {
-            Button("Reset") {
-                rotation = .zero
+            Button("Again") {
+                newAngle = .zero
             }
         }
     }
 }
 
-#Preview { RotateView() }
+#Preview { AngleView() }

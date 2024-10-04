@@ -1,5 +1,5 @@
 //
-//  TapView.swift
+//  TappingView.swift
 //  Gestures-SwiftUI
 //
 //  Created by Alex Fila on 03/10/24.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct TapView: View {
+struct TappingView: View {
 
     @State private var color : Color = Color.primary
-    @State private var isScaled = false
+    @State private var isBig = false
     
     var tapGesture: some Gesture {
         TapGesture(count: 2)
@@ -18,7 +18,7 @@ struct TapView: View {
                 withAnimation {
                     color = Color.random()
                 }
-                isScaled.toggle()
+                isBig.toggle()
             }
     }
     
@@ -27,12 +27,14 @@ struct TapView: View {
             Spacer()
             Rectangle()
                 .foregroundColor(color)
-                .frame(width: 250, height: 350)
+                .frame(width: 150, height: 250)
                 .gesture(tapGesture)
-                .scaleEffect(isScaled ? 2 : 1)
+                .scaleEffect(isBig ? 1.5 : 1)
+            Spacer()
             Circle()
-                .frame(width: 200, height: 200)
+                .frame(width: 100, height: 100)
                 .foregroundColor(color)
+                .scaleEffect(isBig ? 1.5 : 1)
                 .onTapGesture {
                     color = Color.random()
                 }
@@ -41,19 +43,19 @@ struct TapView: View {
         .frame(maxWidth: .infinity)
         .padding(.top)
         .overlay(alignment: .top) {
-            Text("Tap the rectangle to change its color")
+            Text("Tap on circle, double tap on rectangle")
                 .padding()
         }
-        .navigationTitle("Tap")
+        .navigationTitle("Tapping")
         .toolbar {
-            Button("Reset") {
+            Button("Again") {
                 color = Color.primary
             }
         }
     }
 }
 
-#Preview { TapView() }
+#Preview { TappingView() }
 
 extension Color {
     static func random() -> Color {

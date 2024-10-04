@@ -41,7 +41,7 @@ struct DoubleTap: View {
             
             Spacer()
             
-            RadialGradient(colors: [.green, .yellow, .mint], center: .center, startRadius: 0, endRadius: 250)
+            RadialGradient(colors: [.yellow, .green, .mint], center: .center, startRadius: 0, endRadius: 250)
                 .frame(maxHeight: 500)
                 .overlay {
                     HStack {
